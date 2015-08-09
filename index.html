@@ -12,6 +12,7 @@
 <div id="page">
 <div id="instructions">
 <table>
+<tr><td><input type="button" value="Fullscreen" onclick="toggleFullScreen()"></td></tr>
 <tr><td>Move</td><td>Left mouse</td></tr>
 <tr><td>Scale</td><td>Left mouse + "&#91; / &#93;"</td></tr>
 <tr><td>Rotate</td><td>Left mouse + "&#8592; / &#8594;"</td></tr>
@@ -74,19 +75,38 @@
 
   //remove selection if no photo picked
   $('#gallery').mouseup(function(e) {
-        e.preventDefault();
-
-        $("#selected").attr('id', '');
+      e.preventDefault();
+      $("#selected").attr('id', '');
     });
   $('body').mouseup(function(e) {
-        e.preventDefault();
-
+      e.preventDefault();
       $("#selected").attr('id', '');
   });
 
 </script>
 <script>
 
+
+function toggleFullScreen() {
+  if ((document.fullScreenElement && document.fullScreenElement !== null) ||    
+   (!document.mozFullScreen && !document.webkitIsFullScreen)) {
+    if (document.documentElement.requestFullScreen) {  
+      document.documentElement.requestFullScreen();  
+    } else if (document.documentElement.mozRequestFullScreen) {  
+      document.documentElement.mozRequestFullScreen();  
+    } else if (document.documentElement.webkitRequestFullScreen) {  
+      document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);  
+    }  
+  } else {  
+    if (document.cancelFullScreen) {  
+      document.cancelFullScreen();  
+    } else if (document.mozCancelFullScreen) {  
+      document.mozCancelFullScreen();  
+    } else if (document.webkitCancelFullScreen) {  
+      document.webkitCancelFullScreen();  
+    }  
+  }  
+}
 </script
 </body>
 </html>
