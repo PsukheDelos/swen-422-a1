@@ -12,7 +12,7 @@ Leap.loop(controllerOptions, function(frame) {
 
     // Display Hand object data
     var handString = "No hands";
-    if (frame.hands.length > 0) {
+    if (frame.hands.length == 2) {
       for (var i = 0; i < frame.hands.length; i++) {
         var hand = frame.hands[i];
         var img = $("#selected");
@@ -35,11 +35,9 @@ Leap.loop(controllerOptions, function(frame) {
         }
       }
     }
-    // if (handString != "No hands") { console.log(handString); }
-
     // Display Gesture object data
     var gestureString = "No gestures";
-    if (frame.gestures.length > 0) {
+    if (frame.gestures.length > 0 && frame.hands.length==2) {
       if (pauseOnGesture) { togglePause(); }
       for (var i = 0; i < frame.gestures.length; i++) {
         var gesture = frame.gestures[i];
@@ -59,46 +57,82 @@ Leap.loop(controllerOptions, function(frame) {
           case "swipe": gestureString  = "swipe"; break;
           case "screenTap": gestureString  = "screenTap"; break;
           case "keyTap": tapKey(); break;
-          default: gestureString = "unkown gesture type";
+          default: break;
         }
       }
     }
+
+    if (frame.hands.length==1 && frame.gestures.length == 0){
+      try{
+        var appWidth = document.body.clientWidth;
+        var appHeight = document.body.clientHeight;
+
+        var iBox = frame.interactionBox;
+        var pointable = frame.pointables[0];
+
+        var leapPoint = pointable.stabilizedTipPosition;
+        var normalizedPoint = iBox.normalizePoint(leapPoint, true);
+
+        var appX = normalizedPoint[0] * appWidth;
+        var appY = (1 - normalizedPoint[1]) * appHeight;
+
+        var img = $('#selected').children('img').attr('src');
+        var cssObj = {'left' : appX, 'top' : appY};
+        $('#selected').css(cssObj);
+
+        console.log("X: " + appX);
+        console.log("Y: " + appY);
+
+      }catch(e){
+        functionToHandleError(e);
+      }
+    }
+
+
+    // Store frame for motion functions
     // if (gestureString != "No gestures") { console.log(gestureString); }
 
   // Store frame for motion functions
   previousFrame = frame;
 
-  } else {
-    if (frame.gestures.length > 0) {
+  }else{
+    console.log('nothing selected');
+    var gestureString = "No gestures";
+    if (frame.gestures.length > 0 && frame.hands.length==1) {
       if (pauseOnGesture) { togglePause(); }
       for (var i = 0; i < frame.gestures.length; i++) {
         var gesture = frame.gestures[i];
         // find gesture type
         switch (gesture.type) {
-          case "keyTap": tapKey(); break;
-          default: gestureString = "unkown gesture type";
+          case "keyTap": 
+            gestureString = "keyTap"; 
+            try{
+              var appWidth = document.body.clientWidth;
+              var appHeight = document.body.clientHeight;
+
+              var iBox = frame.interactionBox;
+              var pointable = frame.pointables[0];
+
+              var leapPoint = pointable.stabilizedTipPosition;
+              var normalizedPoint = iBox.normalizePoint(leapPoint, true);
+
+              var appX = normalizedPoint[0] * appWidth;
+              var appY = (1 - normalizedPoint[1]) * appHeight;
+
+              $(document.elementFromPoint(appX, appY)).click();
+              console.log ("X: " + appX + ", Y: " + appY);
+              console.log("click");
+            }catch(e){
+              functionToHandleError(e);
+            }
+            break;
+          default: break;
         }
       }
     }
   }
 });
 
-var mousedown = false;
-function tapKey() {
-  // if (mousedown) { $(document.elementFromPoint(x,y)).mouseup(); }
-  // else { $(document.elementFromPoint(x,y)).mousedown(); }
-  console.log("keyTap");
-  $(document.elementFromPoint(tempX,tempY)).click();
-}
-
-document.onmousemove = getMouseXY;
-var tempX = 0;
-var tempY = 0;
-function getMouseXY(e) {
-  tempX = e.pageX;
-  tempY = e.pageY;
-  // console.log(tempX + " " + tempY);
-}
 
 //load in all images from img folder  
 for(x = 0 ; x<4 ; x++){ $("#gallery-ul").append($("<li><img src=\"img/" + x + ".jpg\" alt=\"\"></img></li>")); }

@@ -4,7 +4,7 @@
 * Copyright (c) 2012 b1nj Licensed MIT */
 
 ;(function ( $, window, document, undefined ) {
-
+        var selected = "";
         var zArray = new Array();
         // Create the defaults once
         var pluginName = "b1njPolaroidGallery",
@@ -112,10 +112,15 @@
                             // self._sortZIndex(index);
                             self.$element.find('li').not(this).removeClass('b1njPolaroidGallery-active b1njPolaroidGallery-linkOk');
                             $photo.addClass('b1njPolaroidGallery-active');
-                            $("#selected").attr('id', '');
-                            // console.log($photo.attr('id'));
-                            if ($photo.attr('id') == '') { $photo.attr('id', 'selected'); }
-                            else { $photo.attr('id', ''); }
+
+                            if($photo[0].innerHTML==selected){
+                                selected = "";
+                                $("#selected").attr('id', '');
+                            }
+                            else{
+                                selected = $photo[0].innerHTML;
+                                $photo.attr('id', 'selected');
+                            }   
                         }).
                         draggable({
                             containment : 'parent',

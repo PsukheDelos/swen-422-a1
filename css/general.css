@@ -1,7 +1,9 @@
 body {
     font-family: Verdana, "DejaVu Sans", "Bitstream Vera Sans", Geneva, sans-serif;
     color: #c4c4c4;
+    /*cursor:url(../img/3.jpg), default;*/
     /*overflow: hidden;*/
+    /*cursor:alias;*/
 }
 #page {
     /*margin: 50px auto;*/
@@ -18,4 +20,12 @@ body {
     font-size: .6em;
     font-style: italic;
     text-align: right;
+}
+#circle {
+    width: 50px;
+    height: 50px;
+
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px;
+    border-radius: 25px; 
 }
