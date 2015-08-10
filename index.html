@@ -24,11 +24,13 @@
 </ul>
 </div>
 </div>
-
+<script src="http://js.leapmotion.com/leap-0.6.3.min.js"></script>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 <script src="js/jquery.b1njPolaroidGallerry.js"></script> 
+<script src="js/script.js"></script> 
+
 <script>
     
   //load in all images from img folder  
@@ -49,7 +51,8 @@
       $('#gallery').tooltip('rotate', img, "right");
     } else if (code === 37) { //left key
       var img = $("#selected")
-      $('#gallery').tooltip('rotate', img, "left");    
+      $('#gallery').tooltip('rotate', img, "left");  
+        
     } else if (code === 40) { //down key
       $('#gallery').tooltip('zUpdate', $("#selected"), "down");
     } else if (code === 38) { //up key
@@ -63,6 +66,8 @@
     }
 
   };
+
+
 
       //console.log($('li').length);  //this is the Z so far, so this++ is next Z 
       // $("#gallery-ul").append($("<li class=\"ui-draggable b1njPolaroidGallery-LinkOk\" style=\"width: 220px; z-index: 1; left: 272px; top: 216px;\" id=\"\"><img src=\"img_bak/img1.jpg\" alt=\"\"></li>"));
