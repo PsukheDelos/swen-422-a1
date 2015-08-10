@@ -18,12 +18,20 @@ Leap.loop(controllerOptions, function(frame) {
         var img = $("#selected");
         // if hand roll detected
         if (hand.roll() < -0.5) { $('#gallery').tooltip('rotate', img, "right"); }
-        else if (hand.roll() > 0.7) { $('#gallery').tooltip('rotate', img, "left"); }
+        else if (hand.roll() > 0.5) { $('#gallery').tooltip('rotate', img, "left"); }
         // if hand z change detected
         if (previousFrame != null) {
-          var zChange = hand.translation(previousFrame)[2];
-          if (zChange > 3.5) { $('#gallery').tooltip('zUpdate', $("#selected"), "up"); }
-          else if (zChange < -3.5) { $('#gallery').tooltip('zUpdate', $("#selected"), "down"); }
+          var hChange = hand.translation(previousFrame);
+          if (hChange[2] > 3.5) { $('#gallery').tooltip('zUpdate', $("#selected"), "up"); }
+          else if (hChange[2] < -3.5) { $('#gallery').tooltip('zUpdate', $("#selected"), "down"); }
+          // move the photo when selected
+          var position = $('#selected').position();
+          var xChange = position.left; var yChange = position.top;
+          if (hChange[0] > 1) xChange+=50;
+          else if (hChange[0] < -1) xChange-=50;
+          if (hChange[1] < -1) yChange+=50;
+          else if (hChange[1] > 1) yChange-=50;
+          $('#selected').css({top: yChange, left: xChange});
         }
       }
     }
@@ -50,19 +58,47 @@ Leap.loop(controllerOptions, function(frame) {
             break;
           case "swipe": gestureString  = "swipe"; break;
           case "screenTap": gestureString  = "screenTap"; break;
-          case "keyTap": gestureString = "keyTap"; break;
+          case "keyTap": tapKey(); break;
           default: gestureString = "unkown gesture type";
         }
       }
     }
     // if (gestureString != "No gestures") { console.log(gestureString); }
 
-    // Store frame for motion functions
-    previousFrame = frame;
+  // Store frame for motion functions
+  previousFrame = frame;
 
+  } else {
+    if (frame.gestures.length > 0) {
+      if (pauseOnGesture) { togglePause(); }
+      for (var i = 0; i < frame.gestures.length; i++) {
+        var gesture = frame.gestures[i];
+        // find gesture type
+        switch (gesture.type) {
+          case "keyTap": tapKey(); break;
+          default: gestureString = "unkown gesture type";
+        }
+      }
+    }
+  }
+});
+
+var mousedown = false;
+function tapKey() {
+  // if (mousedown) { $(document.elementFromPoint(x,y)).mouseup(); }
+  // else { $(document.elementFromPoint(x,y)).mousedown(); }
+  console.log("keyTap");
+  $(document.elementFromPoint(tempX,tempY)).click();
 }
 
-});
+document.onmousemove = getMouseXY;
+var tempX = 0;
+var tempY = 0;
+function getMouseXY(e) {
+  tempX = e.pageX;
+  tempY = e.pageY;
+  // console.log(tempX + " " + tempY);
+}
 
 //load in all images from img folder  
 for(x = 0 ; x<4 ; x++){ $("#gallery-ul").append($("<li><img src=\"img/" + x + ".jpg\" alt=\"\"></img></li>")); }
@@ -94,8 +130,8 @@ window.onkeydown = function (e) {
  //    $('#gallery').tooltip('addPhoto', $("#selected"), "up");
 
 //remove selection if no photo picked
-$('#gallery').mouseup(function(e) { e.preventDefault(); $("#selected").attr('id', ''); });
-$('body').mouseup(function(e) { e.preventDefault(); $("#selected").attr('id', ''); });
+// $('#gallery').mouseup(function(e) { e.preventDefault(); $("#selected").attr('id', ''); });
+// $('body').mouseup(function(e) { e.preventDefault(); $("#selected").attr('id', ''); });
 
 function toggleFullScreen() {
   if ((document.fullScreenElement && document.fullScreenElement !== null) || (!document.mozFullScreen && !document.webkitIsFullScreen)) {

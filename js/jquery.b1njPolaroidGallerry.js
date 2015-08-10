@@ -107,13 +107,15 @@
                         self.rotate($photo, rotDegrees);
                         $photo.css(cssObj).
                         data(datas).
-                        bind('mousedown', function(e)
+                        bind('click', function(e)
                         {
                             // self._sortZIndex(index);
                             self.$element.find('li').not(this).removeClass('b1njPolaroidGallery-active b1njPolaroidGallery-linkOk');
                             $photo.addClass('b1njPolaroidGallery-active');
                             $("#selected").attr('id', '');
-                            $photo.attr('id', 'selected');
+                            // console.log($photo.attr('id'));
+                            if ($photo.attr('id') == '') { $photo.attr('id', 'selected'); }
+                            else { $photo.attr('id', ''); }
                         }).
                         draggable({
                             containment : 'parent',
