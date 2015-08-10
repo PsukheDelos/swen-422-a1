@@ -10,7 +10,7 @@
 
 <body>
 <div id="page">
-<div id="instructions">
+<!-- <div id="instructions">
 <table>
 <tr><td><input type="button" value="Fullscreen" onclick="toggleFullScreen()"></td></tr>
 <tr><td>Move</td><td>Left mouse</td></tr>
@@ -18,7 +18,7 @@
 <tr><td>Rotate</td><td>Left mouse + "&#8592; / &#8594;"</td></tr>
 <tr><td>Z value</td><td>Left mouse + "&#8593; / &#8595;"</td></tr>
 </table>
-</div>
+</div> -->
 <div id="gallery" class="b1njPolaroidGallery">
 <ul id="gallery-ul">
 </ul>
@@ -26,14 +26,13 @@
 </div>
 
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script src="js/leapcursor-with-dependencies.min.js"></script>
 <script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 <script src="js/jquery.b1njPolaroidGallerry.js"></script> 
 <script>
     
   //load in all images from img folder  
-  for(x = 0; x < 12; x++){
+  for(x = 0; x < 1; x++){
       $("#gallery-ul").append($("<li><img src=\"img/" + x + ".jpg\" alt=\"\"></img></li>"));
   }
 
@@ -52,6 +51,19 @@
       var img = $("#selected")
       $('#gallery').tooltip('rotate', img, "left");    
     } else if (code === 40) { //down key
+      $('#gallery').tooltip('zUpdate', $("#selected"), "down");
+    } else if (code === 38) { //up key
+      $('#gallery').tooltip('zUpdate', $("#selected"), "up");
+
+
+    } else if (code === 221){ // ] key
+      $('#gallery').tooltip('scale', $("#selected"), "increase");
+    } else if (code === 219){ // [ key
+      $('#gallery').tooltip('scale', $("#selected"), "decrease");
+    }
+
+  };
+
       //console.log($('li').length);  //this is the Z so far, so this++ is next Z 
       // $("#gallery-ul").append($("<li class=\"ui-draggable b1njPolaroidGallery-LinkOk\" style=\"width: 220px; z-index: 1; left: 272px; top: 216px;\" id=\"\"><img src=\"img_bak/img1.jpg\" alt=\"\"></li>"));
       // <li class="ui-draggable" style="width: 220px; z-index: 4;"><img src="img/10.jpg" alt=""></li>
@@ -60,19 +72,9 @@
       // var img = $("#added")
       // console.log(img);
       // $('#gallery').tooltip('addPhoto', ("<li class=\"ui-draggable\" style=\"width: 220px; z-index: "+($('li').length+1)+";\"><img src=\"img_bak/img1.jpg\" alt></img></li>"), $('li').length+1); 
-      $('#gallery').tooltip('zUpdate', $("#selected"), "down");
-    } else if (code === 38) { //up key
-      $('#gallery').tooltip('zUpdate', $("#selected"), "up");
 
       // $("#gallery-ul").append($("<li class=\"ui-draggable\" style=\"width: 220px; z-index: "+($('li').length+1)+";\"><img src=\"img_bak/img1.jpg\" alt=\"\"></img></li>"));
       // $('#gallery').tooltip('addPhoto', $("#selected"), "up");
-    } else if (code === 221){ // ] key
-      $('#gallery').tooltip('scale', $("#selected"), "increase");
-    } else if (code === 219){ // [ key
-      $('#gallery').tooltip('scale', $("#selected"), "decrease");
-    }
-
-  };
 
   //remove selection if no photo picked
   $('#gallery').mouseup(function(e) {
