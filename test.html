@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+<html lang="en" ng-app="kitchensink">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Polaroid (custom class) | Fabric.js Demos</title>
+
+    <link rel="stylesheet" href="css/master.css">
+    <link rel="stylesheet" href="css/prism.css">
+    <style>
+      pre { margin-left: 15px !important }
+    </style>
+
+    <script src="js/prism.js"></script>
+    <script>
+      (function() {
+        var fabricUrl = 'js/fabric.js';
+        if (document.location.search.indexOf('load_fabric_from=') > -1) {
+          var match = document.location.search.match(/load_fabric_from=([^&]*)/);
+          if (match && match[1]) {
+            fabricUrl = match[1];
+          }
+        }
+        document.write('<script src="' + fabricUrl + '"><\/script>');
+      })();
+    </script>
+    <script src="js/master.js"></script>
+
+    <script src="js/angular.min.js"></script>
+  </head>
+  <body>
+    <ul id="header">
+  <li><a href="http://fabricjs.com/">Home</a></li>
+  <li><a href="http://fabricjs.com/demos">Demos</a></li>
+  <li><a href="http://fabricjs.com/articles">Tutorial</a></li>
+  <li><a href="http://fabricjs.com/docs">Docs</a></li>
+  <li><a href="http://fabricjs.com/build">Custom Build</a></li>
+  <li><a href="http://fabricjs.com/help">Support</a></li>
+  <li><a href="http://fabricjs.com/test">Tests/Benchmarks</a></li>
+  <li><a href="http://fabricjs.com/team">Team</a></li>
+
+  <li class="secondary">
+    <a href="https://codeclimate.com/repos/526a0ed089af7e6cf2001389/feed">
+      <img src="https://codeclimate.com/repos/526a0ed089af7e6cf2001389/badges/d1c922dd1511ffa8a72f/gpa.png">
+    </a>
+    <a href="http://travis-ci.org/#!/kangax/fabric.js">
+      <img src="https://api.travis-ci.org/kangax/fabric.js.png?branch=master">
+    </a>
+  </li>
+  <li class="gittip secondary">
+    <iframe style="border: 0; margin: 0; padding: 0;"
+      src="https://www.gittip.com/kangax/widget.html" width="48pt" height="22pt"></iframe>
+  </li>
+  <li class="flattr secondary">
+    <a class="FlattrButton" style="display:none;" rev="flattr;button:compact;" href="http://kangax.github.com/fabric.js"></a>
+    <noscript>
+      <a href="http://flattr.com/thing/391332/Fabric-js" target="_blank">
+        <img src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0" />
+      </a>
+    </noscript>
+  </li>
+  <li class="github secondary">
+    <iframe src="http://ghbtns.com/github-btn.html?user=kangax&repo=fabric.js&type=watch&count=true"
+      allowtransparency="true" frameborder="0" scrolling="0" width="95px" height="20px"></iframe>
+  </li>
+  <li class="twitter secondary">
+    <a href="https://twitter.com/fabricjs" class="twitter-follow-button" data-show-count="true">Follow @fabricjs</a>
+  </li>
+</ul>
+
+<script>
+(function() {
+
+  if (document.location.hostname === 'localhost') {
+    var links = document.getElementById('header').getElementsByTagName('a');
+    for (var i = 0, len = links.length; i < len; i++) {
+      // very retarted fix but fuck it
+      links[i].href = links[i].href.replace('fabricjs.com', 'localhost:4000');
+    }
+  }
+  else {
+    var s = document.createElement('script'), t = document.getElementsByTagName('script')[0];
+    s.async = true;
+    s.src = 'http://api.flattr.com/js/0.6/load.js?mode=auto';
+    t.parentNode.insertBefore(s, t);
+
+    !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+  }
+})();
+</script>
+
+
+    <div id="bd-wrapper" ng-controller="CanvasControls">
+      <h2><span>Fabric.js demos</span> &middot; Polaroid (custom class)</h2>
+
+      <canvas id="c" width="600" height="500"></canvas>
+
+<script id="main">(function() {
+  fabric.Object.prototype.transparentCorners = false;
+
+  var canvas = this.__canvas = new fabric.Canvas('c', {
+    backgroundColor: '#333',
+    HOVER_CURSOR: 'pointer'
+  });
+
+  var PolaroidPhoto = fabric.util.createClass(fabric.Object, fabric.Observable, {
+    H_PADDING: 20,
+    V_PADDING: 50,
+    originX: 'center',
+    originY: 'center',
+    initialize: function(src, options) {
+      this.callSuper('initialize', options);
+      this.image = new Image();
+      this.image.src = src;
+      this.image.onload = (function() {
+        this.width = this.image.width;
+        this.height = this.image.height;
+        this.loaded = true;
+        this.setCoords();
+        this.fire('image:loaded');
+      }).bind(this);
+    },
+    _render: function(ctx) {
+      if (this.loaded) {
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(
+          -(this.width / 2) - this.H_PADDING,
+          -(this.height / 2) - this.H_PADDING,
+          this.width + this.H_PADDING * 2,
+          this.height + this.V_PADDING * 2);
+        ctx.drawImage(this.image, -this.width / 2, -this.height / 2);
+      }
+    }
+  });
+  var photo = new PolaroidPhoto('img/0.jpg', {
+    top: 200,
+    left: 200,
+    scaleX: 0.2,
+    scaleY: 0.2
+  });
+  photo.on('image:loaded', canvas.renderAll.bind(canvas));
+  photo.drawBorders = photo.drawCorners = function() { return this };
+
+  function makeHandler(arg) {
+    return function(e) {
+      if (e.target) {
+        e.target.animate('angle', arg, {
+          duration: 100,
+          onChange: canvas.renderAll.bind(canvas)
+        });
+      }
+    };
+  }
+  canvas.on({
+    'mouse:down': makeHandler('+10'),
+    'mouse:up': makeHandler('-10')
+  });
+  canvas.add(photo);
+})();
+</script>
+
+    </div>
+
+    <script>
+      (function(){
+        var mainScriptEl = document.getElementById('main');
+        if (!mainScriptEl) return;
+        var preEl = document.createElement('pre');
+        var codeEl = document.createElement('code');
+        codeEl.innerHTML = mainScriptEl.innerHTML;
+        codeEl.className = 'language-javascript';
+        preEl.appendChild(codeEl);
+        document.getElementById('bd-wrapper').appendChild(preEl);
+      })();
+    </script>
+
+    <script>
+(function() {
+  fabric.util.addListener(fabric.window, 'load', function() {
+    var canvas = this.__canvas || this.canvas,
+        canvases = this.__canvases || this.canvases;
+
+    canvas && canvas.calcOffset && canvas.calcOffset();
+
+    if (canvases && canvases.length) {
+      for (var i = 0, len = canvases.length; i < len; i++) {
+        canvases[i].calcOffset();
+      }
+    }
+  });
+})();
+</script>
+
+
+  </body>
+</html>
