@@ -112,7 +112,7 @@
                             // self._sortZIndex(index);
                             self.$element.find('li').not(this).removeClass('b1njPolaroidGallery-active b1njPolaroidGallery-linkOk');
                             $photo.addClass('b1njPolaroidGallery-active');
-                            // $("#selected").attr('id', '');
+                            $("#selected").attr('id', '');
                             $photo.attr('id', 'selected');
                         }).
                         draggable({
@@ -191,9 +191,9 @@
                     }
 
                     if(rotation=='right'){
-                        angle = angle + 5;
+                        angle = angle + 2;
                     }else if(rotation=='left'){
-                        angle = angle - 5;
+                        angle = angle - 2;
                     }
 
                     if ($.browser.msie  && parseInt($.browser.version, 10) === 8) {
@@ -249,34 +249,39 @@
                         scale = 1;
                         angle = 0;
                     }else{
-                        var values = s.split('(')[1].split(')')[0].split(',');
-                        var a = values[0];
-                        var b = values[1];
-                        var c = values[2];
-                        var d = values[3];
 
-                        var scale = Math.sqrt(a*a + b*b);
+                        // if (s != null) {
+                            // console.log(s);
+                            var values = s.split('(')[1].split(')')[0].split(',');
+                            var a = values[0];
+                            var b = values[1];
+                            var c = values[2];
+                            var d = values[3];
 
-                        // console.log('Scale: ' + scale);
+                            var scale = Math.sqrt(a*a + b*b);
 
-                        // arc sin, convert from radians to degrees, round
-                        var sin = b/scale;
-                        // next line works for 30deg but not 130deg (returns 50);
-                        // var angle = Math.round(Math.asin(sin) * (180/Math.PI));
-                        var angle = Math.round(Math.atan2(b, a) * (180/Math.PI));
+                            // console.log('Scale: ' + scale);
 
-                        // console.log('Rotate: ' + angle + 'deg');
+                            // arc sin, convert from radians to degrees, round
+                            var sin = b/scale;
+                            // next line works for 30deg but not 130deg (returns 50);
+                            // var angle = Math.round(Math.asin(sin) * (180/Math.PI));
+                            var angle = Math.round(Math.atan2(b, a) * (180/Math.PI));
+
+                            // console.log('Rotate: ' + angle + 'deg');
+
+                        // }
                     
                     }
 
                     if (dir=="increase"){ 
-                        scale = scale + .05;
+                        scale = scale + .01;
                         var cssObj = {
                             'transform' : 'scale('+scale+','+scale+') rotate(' + angle + 'deg)'
                         }
                     }
-                    else if (dir=="decrease" && scale > 0.1){ 
-                        scale = scale - .05;
+                    else if (dir=="decrease"){ 
+                        scale = scale - .01;
                         var cssObj = {
                             'transform' : 'scale('+scale+','+scale+') rotate(' + angle + 'deg)'
                         }

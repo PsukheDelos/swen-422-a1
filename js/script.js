@@ -6,211 +6,105 @@ var pauseOnGesture = false;
 // Setup Leap loop with frame callback function
 var controllerOptions = {enableGestures: true};
 
-// to use HMD mode:
-// controllerOptions.optimizeHMD = true;
-
 Leap.loop(controllerOptions, function(frame) {
-  if (paused) {
-    return; // Skip this update
-  }
 
-  // // Display Frame object data
-  // var frameOutput = document.getElementById("frameData");
+  if($('#selected').size() > 0) {
 
-  // var frameString = "Frame ID: " + frame.id  + "<br />"
-  //                 + "Timestamp: " + frame.timestamp + " &micro;s<br />"
-  //                 + "Hands: " + frame.hands.length + "<br />"
-  //                 + "Fingers: " + frame.fingers.length + "<br />"
-  //                 + "Tools: " + frame.tools.length + "<br />"
-  //                 + "Gestures: " + frame.gestures.length + "<br />";
-
-  // // Frame motion factors
-  // if (previousFrame && previousFrame.valid) {
-  //   var translation = frame.translation(previousFrame);
-  //   frameString += "Translation: " + vectorToString(translation) + " mm <br />";
-
-  //   var rotationAxis = frame.rotationAxis(previousFrame);
-  //   var rotationAngle = frame.rotationAngle(previousFrame);
-  //   frameString += "Rotation axis: " + vectorToString(rotationAxis, 2) + "<br />";
-  //   frameString += "Rotation angle: " + rotationAngle.toFixed(2) + " radians<br />";
-
-  //   var scaleFactor = frame.scaleFactor(previousFrame);
-  //   frameString += "Scale factor: " + scaleFactor.toFixed(2) + "<br />";
-  // }
-  // frameOutput.innerHTML = "<div style='width:300px; float:left; padding:5px'>" + frameString + "</div>";
-
-  // // Display Hand object data
-  // var handOutput = document.getElementById("handData");
-  // var handString = "";
-  // if (frame.hands.length > 0) {
-  //   for (var i = 0; i < frame.hands.length; i++) {
-  //     var hand = frame.hands[i];
-
-  //     handString += "<div style='width:300px; float:left; padding:5px'>";
-  //     handString += "Hand ID: " + hand.id + "<br />";
-  //     handString += "Type: " + hand.type + " hand" + "<br />";
-  //     handString += "Direction: " + vectorToString(hand.direction, 2) + "<br />";
-  //     handString += "Palm position: " + vectorToString(hand.palmPosition) + " mm<br />";
-  //     handString += "Grab strength: " + hand.grabStrength + "<br />";
-  //     handString += "Pinch strength: " + hand.pinchStrength + "<br />";
-  //     handString += "Confidence: " + hand.confidence + "<br />";
-  //     handString += "Arm direction: " + vectorToString(hand.arm.direction()) + "<br />";
-  //     handString += "Arm center: " + vectorToString(hand.arm.center()) + "<br />";
-  //     handString += "Arm up vector: " + vectorToString(hand.arm.basis[1]) + "<br />";
-
-  //     // Hand motion factors
-  //     if (previousFrame && previousFrame.valid) {
-  //       var translation = hand.translation(previousFrame);
-  //       handString += "Translation: " + vectorToString(translation) + " mm<br />";
-
-  //       var rotationAxis = hand.rotationAxis(previousFrame, 2);
-  //       var rotationAngle = hand.rotationAngle(previousFrame);
-  //       handString += "Rotation axis: " + vectorToString(rotationAxis) + "<br />";
-  //       handString += "Rotation angle: " + rotationAngle.toFixed(2) + " radians<br />";
-
-  //       var scaleFactor = hand.scaleFactor(previousFrame);
-  //       handString += "Scale factor: " + scaleFactor.toFixed(2) + "<br />";
-  //     }
-
-  //     // IDs of pointables associated with this hand
-  //     if (hand.pointables.length > 0) {
-  //       var fingerIds = [];
-  //       for (var j = 0; j < hand.pointables.length; j++) {
-  //         var pointable = hand.pointables[j];
-  //           fingerIds.push(pointable.id);
-  //       }
-  //       if (fingerIds.length > 0) {
-  //         handString += "Fingers IDs: " + fingerIds.join(", ") + "<br />";
-  //       }
-  //     }
-
-  //     handString += "</div>";
-  //   }
-  // }
-  // else {
-  //   handString += "No hands";
-  // }
-  // handOutput.innerHTML = handString;
-
-  // // Display Pointable (finger and tool) object data
-  // var pointableOutput = document.getElementById("pointableData");
-  // var pointableString = "";
-  // if (frame.pointables.length > 0) {
-  //   var fingerTypeMap = ["Thumb", "Index finger", "Middle finger", "Ring finger", "Pinky finger"];
-  //   var boneTypeMap = ["Metacarpal", "Proximal phalanx", "Intermediate phalanx", "Distal phalanx"];
-  //   for (var i = 0; i < frame.pointables.length; i++) {
-  //     var pointable = frame.pointables[i];
-
-  //     pointableString += "<div style='width:250px; float:left; padding:5px'>";
-
-  //     if (pointable.tool) {
-  //       pointableString += "Pointable ID: " + pointable.id + "<br />";
-  //       pointableString += "Classified as a tool <br />";
-  //       pointableString += "Length: " + pointable.length.toFixed(1) + " mm<br />";
-  //       pointableString += "Width: "  + pointable.width.toFixed(1) + " mm<br />";
-  //       pointableString += "Direction: " + vectorToString(pointable.direction, 2) + "<br />";
-  //       pointableString += "Tip position: " + vectorToString(pointable.tipPosition) + " mm<br />"
-  //       pointableString += "</div>";
-  //     }
-  //     else {
-  //       pointableString += "Pointable ID: " + pointable.id + "<br />";
-  //       pointableString += "Type: " + fingerTypeMap[pointable.type] + "<br />";
-  //       pointableString += "Belongs to hand with ID: " + pointable.handId + "<br />";
-  //       pointableString += "Classified as a finger<br />";
-  //       pointableString += "Length: " + pointable.length.toFixed(1) + " mm<br />";
-  //       pointableString += "Width: "  + pointable.width.toFixed(1) + " mm<br />";
-  //       pointableString += "Direction: " + vectorToString(pointable.direction, 2) + "<br />";
-  //       pointableString += "Extended?: "  + pointable.extended + "<br />";
-  //       pointable.bones.forEach( function(bone){
-  //         pointableString += boneTypeMap[bone.type] + " bone <br />";
-  //         pointableString += "Center: " + vectorToString(bone.center()) + "<br />";
-  //         pointableString += "Direction: " + vectorToString(bone.direction()) + "<br />";
-  //         pointableString += "Up vector: " + vectorToString(bone.basis[1]) + "<br />";
-  //       });
-  //       pointableString += "Tip position: " + vectorToString(pointable.tipPosition) + " mm<br />";
-  //       pointableString += "</div>";
-  //     }
-  //   }
-  // }
-  // else {
-  //   pointableString += "<div>No pointables</div>";
-  // }
-  // pointableOutput.innerHTML = pointableString;
-
-  // Display Gesture object data
-  // var gestureOutput = document.getElementById("gestureData");
-  var gestureString = "";
-  if (frame.gestures.length > 0) {
-    if (pauseOnGesture) {
-      togglePause();
-    }
-    for (var i = 0; i < frame.gestures.length; i++) {
-      var gesture = frame.gestures[i];
-
-      switch (gesture.type) {
-        case "circle":
-          var clockwise = false;
-          var pointableID = gesture.pointableIds[0];
-          var direction = frame.pointable(pointableID).direction;
-          var dotProduct = Leap.vec3.dot(direction, gesture.normal);
-          if(dotProduct > 0) clockwise = true;
-          gestureString = "circle"
-          var img = $("#selected")
-          if(clockwise){
-            $('#gallery').tooltip('scale', img, "increase");
-          }
-          else{
-            $('#gallery').tooltip('scale', img, "decrease");
-          }
-          break;
-        case "swipe":
-          gestureString  = "swipe"
-          break;
-        case "screenTap":
-          gestureString  = "screenTap"
-          break;
-        case "keyTap":
-          gestureString = "keyTape: position: " + vectorToString(gesture.position) + " mm";
-          break;
-        default:
-          gestureString = "unkown gesture type";
+    // Display Hand object data
+    var handString = "No hands";
+    if (frame.hands.length > 0) {
+      for (var i = 0; i < frame.hands.length; i++) {
+        var hand = frame.hands[i];
+        var img = $("#selected");
+        if (img != 'none') {
+          // if hand roll detected
+          if (hand.roll() < -0.5) { $('#gallery').tooltip('rotate', img, "right"); }
+          else if (hand.roll() > 0.7) { $('#gallery').tooltip('rotate', img, "left"); }
+          // if hand z change detected
+          var zChange = hand.translation(previousFrame)[2];
+          if (zChange > 3.5) { $('#gallery').tooltip('zUpdate', $("#selected"), "up"); }
+          else if (zChange < -3.5) { $('#gallery').tooltip('zUpdate', $("#selected"), "down"); }
+        }
       }
-      // gestureString += "<br />";
     }
-  }
-  else {
-    gestureString += "No gestures";
-  }
-  console.log(gestureString);
-  // gestureOutput.innerHTML = gestureString;
+    // if (handString != "No hands") { console.log(handString); }
 
-  // Store frame for motion functions
-  previousFrame = frame;
-})
+    // Display Gesture object data
+    var gestureString = "No gestures";
+    if (frame.gestures.length > 0) {
+      if (pauseOnGesture) { togglePause(); }
+      for (var i = 0; i < frame.gestures.length; i++) {
+        var gesture = frame.gestures[i];
+        // find gesture type
+        switch (gesture.type) {
+          case "circle":
+            // gestureString = "circle"
+            var clockwise = false;
+            var pointableID = gesture.pointableIds[0];
+            var direction = frame.pointable(pointableID).direction;
+            var dotProduct = Leap.vec3.dot(direction, gesture.normal);
+            if(dotProduct > 0) clockwise = true;
+            var img = $("#selected")
+            if(clockwise){ $('#gallery').tooltip('scale', img, "increase"); }
+            else{ $('#gallery').tooltip('scale', img, "decrease"); }
+            break;
+          case "swipe": gestureString  = "swipe"; break;
+          case "screenTap": gestureString  = "screenTap"; break;
+          case "keyTap": gestureString = "keyTap"; break;
+          default: gestureString = "unkown gesture type";
+        }
+      }
+    }
+    // if (gestureString != "No gestures") { console.log(gestureString); }
 
-function vectorToString(vector, digits) {
-  if (typeof digits === "undefined") {
-    digits = 1;
-  }
-  return "(" + vector[0].toFixed(digits) + ", "
-             + vector[1].toFixed(digits) + ", "
-             + vector[2].toFixed(digits) + ")";
+    // Store frame for motion functions
+    previousFrame = frame;
+
 }
 
-// function togglePause() {
-//   paused = !paused;
+});
 
-//   if (paused) {
-//     document.getElementById("pause").innerText = "Resume";
-//   } else {
-//     document.getElementById("pause").innerText = "Pause";
-//   }
-// }
+//load in all images from img folder  
+for(x = 0 ; x<4 ; x++){ $("#gallery-ul").append($("<li><img src=\"img/" + x + ".jpg\" alt=\"\"></img></li>")); }
 
-// function pauseForGestures() {
-//   if (document.getElementById("pauseOnGesture").checked) {
-//     pauseOnGesture = true;
-//   } else {
-//     pauseOnGesture = false;
-//   }
-// }
+//create photo gallery
+$(function() { $('#gallery').b1njPolaroidGallery(); });
+
+//listen for key presses (for testing functions)
+window.onkeydown = function (e) {
+  var code = e.keyCode ? e.keyCode : e.which;
+  if (code === 39) { var img = $("#selected"); $('#gallery').tooltip('rotate', img, "right"); } //right key
+  else if (code === 37) { var img = $("#selected"); $('#gallery').tooltip('rotate', img, "left"); } //left key
+  else if (code === 40) { $('#gallery').tooltip('zUpdate', $("#selected"), "down"); } //down key
+  else if (code === 38) { $('#gallery').tooltip('zUpdate', $("#selected"), "up"); } //up key
+  else if (code === 221){ $('#gallery').tooltip('scale', $("#selected"), "increase"); }  // ] key
+  else if (code === 219){ $('#gallery').tooltip('scale', $("#selected"), "decrease"); } // [ key
+};
+
+ //    console.log($('li').length);  //this is the Z so far, so this++ is next Z 
+ //    $("#gallery-ul").append($("<li class=\"ui-draggable b1njPolaroidGallery-LinkOk\" style=\"width: 220px; z-index: 1; left: 272px; top: 216px;\" id=\"\"><img src=\"img_bak/img1.jpg\" alt=\"\"></li>"));
+ //    <li class="ui-draggable" style="width: 220px; z-index: 4;"><img src="img/10.jpg" alt=""></li>
+ //    $("#gallery-ul").append($("<li class=\"ui-draggable\" style=\"width: 220px; z-index: 1;\" id=\"added\"><img src=\"img_bak/img1.jpg\" alt=\"\"></img></li>"));
+ //    $("#gallery-ul").append($("<li class=\"ui-draggable\" style=\"width: 220px; z-index: "+($('li').length+1)+";\"><img src=\"img_bak/img1.jpg\" alt=\"\"></img></li>"));
+ //    var img = $("#added")
+ //    console.log(img);
+ //    $('#gallery').tooltip('addPhoto', ("<li class=\"ui-draggable\" style=\"width: 220px; z-index: "+($('li').length+1)+";\"><img src=\"img_bak/img1.jpg\" alt></img></li>"), $('li').length+1); 
+
+ //    $("#gallery-ul").append($("<li class=\"ui-draggable\" style=\"width: 220px; z-index: "+($('li').length+1)+";\"><img src=\"img_bak/img1.jpg\" alt=\"\"></img></li>"));
+ //    $('#gallery').tooltip('addPhoto', $("#selected"), "up");
+
+//remove selection if no photo picked
+// $('#gallery').mouseup(function(e) { e.preventDefault(); $("#selected").attr('id', ''); });
+// $('body').mouseup(function(e) { e.preventDefault(); $("#selected").attr('id', ''); });
+
+function toggleFullScreen() {
+  if ((document.fullScreenElement && document.fullScreenElement !== null) || (!document.mozFullScreen && !document.webkitIsFullScreen)) {
+    if (document.documentElement.requestFullScreen) { document.documentElement.requestFullScreen(); }
+    else if (document.documentElement.mozRequestFullScreen) { document.documentElement.mozRequestFullScreen(); }
+    else if (document.documentElement.webkitRequestFullScreen) { document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT); }  
+  } else {  
+    if (document.cancelFullScreen) { document.cancelFullScreen(); }
+    else if (document.mozCancelFullScreen) { document.mozCancelFullScreen(); } 
+    else if (document.webkitCancelFullScreen) { document.webkitCancelFullScreen(); }  
+  }  
+}
