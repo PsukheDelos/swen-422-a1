@@ -16,11 +16,11 @@ Leap.loop(controllerOptions, function(frame) {
       for (var i = 0; i < frame.hands.length; i++) {
         var hand = frame.hands[i];
         var img = $("#selected");
-        if (img != 'none') {
-          // if hand roll detected
-          if (hand.roll() < -0.5) { $('#gallery').tooltip('rotate', img, "right"); }
-          else if (hand.roll() > 0.7) { $('#gallery').tooltip('rotate', img, "left"); }
-          // if hand z change detected
+        // if hand roll detected
+        if (hand.roll() < -0.5) { $('#gallery').tooltip('rotate', img, "right"); }
+        else if (hand.roll() > 0.7) { $('#gallery').tooltip('rotate', img, "left"); }
+        // if hand z change detected
+        if (previousFrame != null) {
           var zChange = hand.translation(previousFrame)[2];
           if (zChange > 3.5) { $('#gallery').tooltip('zUpdate', $("#selected"), "up"); }
           else if (zChange < -3.5) { $('#gallery').tooltip('zUpdate', $("#selected"), "down"); }
@@ -94,8 +94,8 @@ window.onkeydown = function (e) {
  //    $('#gallery').tooltip('addPhoto', $("#selected"), "up");
 
 //remove selection if no photo picked
-// $('#gallery').mouseup(function(e) { e.preventDefault(); $("#selected").attr('id', ''); });
-// $('body').mouseup(function(e) { e.preventDefault(); $("#selected").attr('id', ''); });
+$('#gallery').mouseup(function(e) { e.preventDefault(); $("#selected").attr('id', ''); });
+$('body').mouseup(function(e) { e.preventDefault(); $("#selected").attr('id', ''); });
 
 function toggleFullScreen() {
   if ((document.fullScreenElement && document.fullScreenElement !== null) || (!document.mozFullScreen && !document.webkitIsFullScreen)) {
