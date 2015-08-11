@@ -24,11 +24,6 @@
     cursor: -webkit-grabbing;
 }
 li.b1njPolaroidGallery-active {
-/*        -webkit-transform : rotate(0deg) !important;
-    -ms-transform : rotate(0deg) !important;
-    -moz-transform : rotate(0deg) !important;  
-    -o-transform : rotate(0deg) !important;
-    transform : rotate(0deg) !important;*/
     -webkit-box-shadow : #888 5px 5px 5px;
     box-shadow : #888 5px 5px 5px;
 }
