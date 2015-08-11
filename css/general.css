@@ -37,8 +37,15 @@ body {
     pointer-events: none;
 }
 #thumbnails{
+    display:table;
     float: left;
     background-color: blue;
     width: 10%;
     height: 100%;
 }
+#img-list { display:table; height:100vh }
+#img-list img { height:50px; display:block }
+#img-list li { display:table-row }
+#img-list li span { display:table-cell; vertical-align:middle; }
+#img-list li:first-child,
+#img-list li:last-child { height:20px }​
