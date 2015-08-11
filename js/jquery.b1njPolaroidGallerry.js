@@ -1,20 +1,12 @@
-/*! jQuery B1njPolaroidGallery - v1.0
-* https://github.com/b1nj/b1njPolaroidGallery
-* Includes: jquery.ui.js
-* Copyright (c) 2012 b1nj Licensed MIT */
 
 ;(function ( $, window, document, undefined ) {
         var selected = "";
         var zArray = new Array();
-        // Create the defaults once
         var pluginName = "b1njPolaroidGallery",
-                defaults = {
-                // maxRotation: 0,
-                // randomStacking: true
-        };
+                defaults = {};
 
-        // The actual plugin constructor
         function Plugin ( element, options ) {
+                console.log(element);
                 this.element = element;
                 this.$element = $(this.element);
                 this.settings = $.extend( {}, defaults, options );
@@ -34,8 +26,6 @@
 
                 var self = this;
                 $(window).load(function() {
-                    self.galleryW = self.$element.width();
-                    self.galleryH = self.$element.height();
                     self.init();
                 });
         }
@@ -53,74 +43,13 @@
                         if (alt != '') {
                             $(this).append('<p>'+ alt +'</p>');
                         }
-                        $photo.width($('img', this).width() + (Number($('img', this).css('margin-left').slice(0,-2)) * 2));
 
-                        $('a', this).click(function (e)
-                        {
-                            var $lien = $(this);
-                            if (!$lien.parent('li').hasClass('b1njPolaroidGallery-linkOk')) {
-                                $lien.parent('li').addClass('b1njPolaroidGallery-linkOk');
-                                e.preventDefault();
-                                e.stopPropagation();
-                            }
-                        });
-
-
-
-                        var photoW = $photo.outerWidth();
-                        var photoH = $photo.outerHeight();
-
-                        var rotDegrees = self._randomXToY(0, self.settings.maxRotation);
-                        var tempVal = Math.round(Math.random());
-                        if(tempVal == 1) {
-                            var rotDegrees = 360 - rotDegrees; // rotate left
-                        }
-
-                        var shiftT = self._shiftAfterRotate(photoH, photoW, rotDegrees);
-                        var shiftL = self._shiftAfterRotate(photoW, photoH, rotDegrees);
-
-                        if (self.galleryH - shiftT - photoH > shiftT) {
-                            var top = self._randomXToY(shiftT, self.galleryH - shiftT - photoH);
-                        } else {
-                            var top = shiftT;
-                        }
-                        if (self.galleryW - shiftL - photoW > shiftL) {
-                            var left = self._randomXToY(shiftL, self.galleryW - shiftL - photoW);
-                        } else {
-                            var left = shiftL;
-                        }
-
-                        var cssObj = {
-                            'left' : '+=' + left,
-                            'top' : '+=' + top
-                        };
-                        cssObj['z-index'] = self.zIndex[index];
-
-                        var datas = {
-                            'shiftT' : shiftT,
-                            'shiftL' : shiftL,
-                            'rotDegrees' : rotDegrees,
-                            'photoH' : photoH,
-                            'photoW' : photoW
-                        };
-
-                        self.rotate($photo, rotDegrees);
-                        $photo.css(cssObj).
-                        data(datas).
+                        $photo.
                         bind('click', function(e)
                         {
-                            // self._sortZIndex(index);
-                            self.$element.find('li').not(this).removeClass('b1njPolaroidGallery-active b1njPolaroidGallery-linkOk');
                             $photo.addClass('b1njPolaroidGallery-active');
 
-                            if($photo[0].innerHTML==selected){
-                                selected = "";
-                                $("#selected").attr('id', '');
-                            }
-                            else{
-                                selected = $photo[0].innerHTML;
-                                $photo.attr('id', 'selected');
-                            }   
+                            $photo.attr('id', 'selected');  
                         }).
                         draggable({
                             containment : 'parent',
@@ -128,58 +57,15 @@
                                 if (('a', this).length != 0) {
                                     $photo.addClass('b1njPolaroidGallery-LinkOk');
                                 }
-                            },
-                            stop: function(event, ui) {
-                                rotDegrees = $(this).data('rotDegrees');
-                                self.rotate($photo,rotDegrees);
                             }
                         });
 
                     });
                 },
 
-                _sortZIndex: function (index)
-                {
-                    var thisOldZIndex = this.zIndex[index];
-                    for(var i = 0; i < this.zIndex.length; i++) {
-                        var $this = $('li:eq(' + i + ')', gallery);
-                        if (this.zIndex[i] == this.nbPhotos && i != index) {
-                            var thisDatas = $this.data();
-                            var top = $this.position().top;
-                            var left = $this.position().left;
-                            if (top < thisDatas.shiftT) {
-                                $this.css('top', '+=' + (top + thisDatas.shiftT));
-                            } else if (thisDatas.photoH + top + thisDatas.shiftT > this.galleryH) {
-                                $this.css('top', '-=' + (thisDatas.photoH + top + thisDatas.shiftT - this.galleryH));
-                            }
-                            if (left < thisDatas.shiftL) {
-                                $this.css('left', '+=' + (left + thisDatas.shiftL));
-                            } else if (thisDatas.photoW + left + thisDatas.shiftL > this.galleryW) {
-                                $this.css('left', '-=' + (thisDatas.photoW + left + thisDatas.shiftL - this.galleryW));
-                            }
-                        }
-                        if (this.zIndex[i] > thisOldZIndex) {
-                            this.zIndex[i]--;
-                        } else if (i == index) {
-                            this.zIndex[i] = this.nbPhotos;
-                        }
-                        $this.css('z-index', this.zIndex[i]);
-                    }
-                },
-
-                // Function to get random number upto m
-                // http://roshanbh.com.np/2008/09/get-random-number-range-two-numbers-javascript.html
-                _randomXToY: function (minVal, maxVal, floatVal)
-                {
-                    var randVal = minVal+(Math.random()*(maxVal-minVal));
-                    return typeof floatVal=='undefined'?Math.round(randVal):randVal.toFixed(floatVal);
-                },
-
                 rotate: function (element, rotation)
                 {
                     var s = element.css("transform");
-                    // console.log(s);
-                    // rotation matrix - http://en.wikipedia.org/wiki/Rotation_matrix
                     if(s=='none'){
                         scale = 1;
                         angle = 0;
@@ -190,10 +76,7 @@
                         var c = values[2];
                         var d = values[3];
                         var scale = Math.sqrt(a*a + b*b);
-                        // arc sin, convert from radians to degrees, round
                         var sin = b/scale;
-                        // next line works for 30deg but not 130deg (returns 50);
-                        // var angle = Math.round(Math.asin(sin) * (180/Math.PI));
                         var angle = Math.round(Math.atan2(b, a) * (180/Math.PI));                    
                     }
 
@@ -249,36 +132,21 @@
 
                 scale: function (element, dir)
                 {
-                    // var s = parseFloat(element.css("transform").split(',')[0].slice(7));
                     var s = element.css("transform");
-                    // rotation matrix - http://en.wikipedia.org/wiki/Rotation_matrix
+
                     if(s=='none'){
                         scale = 1;
                         angle = 0;
                     }else{
+                        var values = s.split('(')[1].split(')')[0].split(',');
+                        var a = values[0];
+                        var b = values[1];
+                        var c = values[2];
+                        var d = values[3];
 
-                        // if (s != null) {
-                            // console.log(s);
-                            var values = s.split('(')[1].split(')')[0].split(',');
-                            var a = values[0];
-                            var b = values[1];
-                            var c = values[2];
-                            var d = values[3];
-
-                            var scale = Math.sqrt(a*a + b*b);
-
-                            // console.log('Scale: ' + scale);
-
-                            // arc sin, convert from radians to degrees, round
-                            var sin = b/scale;
-                            // next line works for 30deg but not 130deg (returns 50);
-                            // var angle = Math.round(Math.asin(sin) * (180/Math.PI));
-                            var angle = Math.round(Math.atan2(b, a) * (180/Math.PI));
-
-                            // console.log('Rotate: ' + angle + 'deg');
-
-                        // }
-                    
+                        var scale = Math.sqrt(a*a + b*b);
+                        var sin = b/scale;
+                        var angle = Math.round(Math.atan2(b, a) * (180/Math.PI));                    
                     }
 
                     if (dir=="increase"){ 
@@ -296,9 +164,6 @@
                     element.css(cssObj);
                 },                
 
-                // Fuction get the shift after rotate the photo
-                // http://www.maths-forum.com/trigonometrie-rotation-d-un-rectangle-129467.php
-                // //x = (1/V2).V(CD² + AD²) * V(1-cos(alpha)) * sin[(180° - alpha)/2 - arctg(AD/CD)]
                 _shiftAfterRotate: function _(height, width, rotate)
                 {
                     if (rotate > 180) {
@@ -315,8 +180,6 @@
 
         };
 
-        // A really lightweight plugin wrapper around the constructor,
-        // preventing against multiple instantiations
         $.fn[ pluginName ] = function ( options ) {
                 return this.each(function() {
                         if ( !$.data( this, "plugin_" + pluginName ) ) {
