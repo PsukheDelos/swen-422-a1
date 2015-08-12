@@ -48,7 +48,6 @@
                         bind('click', function(e)
                         {
                             $photo.addClass('b1njPolaroidGallery-active');
-
                             $photo.attr('id', 'selected');  
                         }).
                         draggable({
@@ -114,6 +113,13 @@
                     img = element.children('img').attr('src');
                     oz = zArray;
                     z = zArray.indexOf(img);
+                    if (dir="cycle"){
+                        if(z==0){
+                            zArray.move(z, zArray.length-1);
+                        }else{ 
+                            zArray.move(z,z-1);   
+                        }
+                    }
                     if (dir=="down" && z > 0){ 
                         zArray.move(z,z-1);   
                     }
