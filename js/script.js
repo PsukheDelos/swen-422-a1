@@ -58,7 +58,7 @@ Leap.loop(controllerOptions, function(frame) {
             // if hand z change detected
             // if (previousFrame != null) {
             //   var hChange = hand.translation(previousFrame);
-            //   if (hChange[2] > 3.5) { $('#gallery').tooltip('zUpdate', $("#selected"), "up"); }
+            //   if (hChange[2] > 3.5) { $('#gallery').tooltip('zUpdate', $("#selected"), "up"); } # Tried a few values. 2/2.5 seems a bit more responsive.
             //   else if (hChange[2] < -3.5) { $('#gallery').tooltip('zUpdate', $("#selected"), "down"); }
             //   // move the photo when selected
             //   var position = $('#selected').position();
@@ -70,7 +70,6 @@ Leap.loop(controllerOptions, function(frame) {
             //   $('#selected').css({top: yChange, left: xChange});
             // }
           // }
-          
 
           if (pauseOnGesture) { togglePause(); }
           var gestureString = "No gestures";
@@ -89,7 +88,25 @@ Leap.loop(controllerOptions, function(frame) {
                 if(clockwise){ $('#gallery').tooltip('scale', img, "increase"); }
                 else{ $('#gallery').tooltip('scale', img, "decrease"); }
                 break;
-              case "swipe": gestureString  = "swipe"; break;
+              case "swipe": 
+                gestureString  = "swipe"; 
+                var isHorizontal = Math.abs(gesture.direction[0]) > Math.abs(gesture.direction[1]);
+                if(isHorizontal){
+                  if(gesture.direction[0] > 0){
+                    //left
+                  } else {
+                    //right
+                  }
+                } else { //vertical
+                  if(gesture.direction[1] > 0){
+                    //up
+                    //console.log(gesture.speed); #Messed about with this too.
+                  } else {
+                    //down
+                    //console.log(gesture.speed);
+                  }                  
+                }
+                break;
               case "screenTap": gestureString  = "screenTap"; break;
               case "keyTap": 
                 $('#gallery').tooltip('zUpdate', $("#selected"), "cycle"); 
