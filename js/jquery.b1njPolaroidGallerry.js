@@ -113,20 +113,14 @@
                     img = element.children('img').attr('src');
                     oz = zArray;
                     z = zArray.indexOf(img);
-                    if (dir="cycle"){
-                        if(z==0){
-                            zArray.move(z, zArray.length-1);
-                        }else{ 
-                            zArray.move(z,z-1);   
-                        }
-                    }
-                    if (dir=="down" && z > 0){ 
+                    if (dir=="cycle"){
+                        if(z==0){ zArray.move(z, zArray.length-1); }
+                        else{ zArray.move(z,z-1); }
+                    } else if (dir=="down" && z > 0){
                         zArray.move(z,z-1);   
-                    }
-                    else if(dir=="up" && z < $('li').length-1){
+                    } else if(dir=="up" && z < $('li').length-1){
                         zArray.move(z,z+1);
                     }
-
                     $( ".ui-draggable" ).each(function() {
                         i = zArray.indexOf($(this).children('img').attr('src'));
                         var cssObj = {

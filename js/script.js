@@ -5,6 +5,9 @@ var pauseOnGesture = false;
 var appX = 0;
 var appY = 0;
 
+var swipeUp = 0;
+var swipeDn = 0;
+
 // Setup Leap loop with frame callback function
 var controllerOptions = {enableGestures: true};
 
@@ -44,7 +47,7 @@ Leap.loop(controllerOptions, function(frame) {
           $('#target').css({ fill: "red" });
 
         }else if (touchZone=="hovering"  && $('#selected').size() > 0){
-          console.log('hovering');
+          // console.log('hovering');
           $('#target').css({ fill: "green" });
           $('#selected').css({ background: "green" });
           
@@ -85,32 +88,38 @@ Leap.loop(controllerOptions, function(frame) {
                 var dotProduct = Leap.vec3.dot(direction, gesture.normal);
                 if(dotProduct > 0) clockwise = true;
                 var img = $("#selected")
-                if(clockwise){ $('#gallery').tooltip('scale', img, "increase"); }
+                if(clockwise) { $('#gallery').tooltip('scale', img, "increase"); }
                 else{ $('#gallery').tooltip('scale', img, "decrease"); }
                 break;
               case "swipe": 
                 gestureString  = "swipe"; 
                 var isHorizontal = Math.abs(gesture.direction[0]) > Math.abs(gesture.direction[1]);
-                if(isHorizontal){
-                  if(gesture.direction[0] > 0){
-                    //left
-                  } else {
-                    //right
-                  }
+                if(isHorizontal) {
+                  if(gesture.direction[0] > 0) {} // left swipe
+                  else {} // right swipe
                 } else { //vertical
-                  if(gesture.direction[1] > 0){
-                    //up
-                    //console.log(gesture.speed); #Messed about with this too.
+                  if(gesture.direction[1] > 0) {
+                    //console.log(swipeUp);
+                    swipeUp++;
+                    if(swipeUp > 50) {
+                      swipeUp = 0;
+
+                      $('#gallery').tooltip('zUpdate', $("#selected"), "up");
+                    }
                   } else {
-                    //down
-                    //console.log(gesture.speed);
+                    //console.log(swipeDn);
+                    swipeDn++;
+                    if(swipeDn > 50) {
+                      swipeDn = 0;
+                      $('#gallery').tooltip('zUpdate', $("#selected"), "down");
+                    }
                   }                  
                 }
                 break;
               case "screenTap": gestureString  = "screenTap"; break;
               case "keyTap": 
-                $('#gallery').tooltip('zUpdate', $("#selected"), "cycle"); 
-                console.log("down");
+                //$('#gallery').tooltip('zUpdate', $("#selected"), "cycle"); 
+                // console.log("down");
                 break;
               default: break;
             }
