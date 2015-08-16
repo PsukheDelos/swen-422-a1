@@ -6,7 +6,7 @@ body {
     margin-bottom: 0px;
     margin-left: 0px;
     overflow: hidden;
-    cursor: none;
+    /*cursor: none;*/
 }
 #page {
     width: 100wh;
@@ -37,15 +37,15 @@ body {
     pointer-events: none;
 }
 #thumbnails{
-    display:table;
+    /*display:table;*/
     float: left;
-    background-color: blue;
+    background-color: grey;
     width: 10%;
     height: 100%;
 }
-#img-list { display:table; height:100vh }
-#img-list img { height:50px; display:block }
-#img-list li { display:table-row }
-#img-list li span { display:table-cell; vertical-align:middle; }
-#img-list li:first-child,
-#img-list li:last-child { height:20px }​
+.thumb{width: 95%; border: 3px solid #D7D7D7;}
+
+#img-list { display:table; height:90vh}
+#img-list img { width: 100%; display:block; margin: 5px; border: 1px solid #D7D7D7; text-align:center}
+#img-list li { display:inline-block }
+#img-list li span { display:table-cell; vertical-align: middle}
