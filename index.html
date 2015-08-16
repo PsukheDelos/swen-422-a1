@@ -13,11 +13,20 @@
     <div id="page">
       <!-- <button onclick="myFunction()">Click me</button> -->
       <div id="thumbnails">
-        <ul id="img-list">
-          <li><span><img src="img/0.jpg"></span></li>
-          <li><span><img src="img/1.jpg"></span></li>
-          <li><span><img src="img/2.jpg"></span></li>
-        </ul>​
+        <table>
+          <tr><img id="selected-thumb" class="thumb" src="img/0.jpg"></tr>
+          <tr><img class="thumb" src="img/1.jpg"></tr>
+          <tr><img class="thumb" src="img/2.jpg"></tr>
+          <tr><img class="thumb" src="img/3.jpg"></tr>
+          <tr><img class="thumb" src="img/4.jpg"></tr>
+        </table>
+<!--         <ul id="img-list">
+          <li id="selected-thumb"><span><img src="img/0.jpg"></span></li>
+          <li><span><img src="img/3.jpg"></span></li>
+          <li><span><img src="img/7.jpg"></span></li>
+          <li><span><img src="img/8.jpg"></span></li>
+          <li><span><img src="img/10.jpg"></span></li>
+        </ul>​ -->
       </div>
       <div id="gallery" class="b1njPolaroidGallery">
         <ul id="gallery-ul">
@@ -25,10 +34,10 @@
       </div>
     </div>
 
-    <script src="http://js.leapmotion.com/leap-0.6.3.min.js"></script>
-    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-    <script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script src="js/leap-0.6.3.min.js"></script>
+    <script src="js/jquery-latest.min.js"></script>
+    <script src="js/jquery-migrate-1.2.1.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
     <script src="js/jquery.b1njPolaroidGallerry.js"></script> 
     <script src="js/script.js"></script>
     <script>
