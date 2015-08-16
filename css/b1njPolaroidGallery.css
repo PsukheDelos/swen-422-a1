@@ -23,6 +23,11 @@
     background: red;
     cursor: -webkit-grabbing;
 }
+#selected-thumb{
+    background: blue;
+    border: 3px solid blue;
+    cursor: -webkit-grabbing;
+}
 li.b1njPolaroidGallery-active {
     -webkit-box-shadow : #888 5px 5px 5px;
     box-shadow : #888 5px 5px 5px;
