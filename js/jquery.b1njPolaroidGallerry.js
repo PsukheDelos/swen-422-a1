@@ -1,4 +1,3 @@
-
 ;(function ( $, window, document, undefined ) {
         var selected = "";
         var zArray = new Array();
