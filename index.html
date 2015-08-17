@@ -1,51 +1,47 @@
 <!DOCTYPE html>
+<!-- Special thanks to the creators of the b1njPolaroidGallery open source code -->
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8">
     <title>Leap Motion Demo</title>
-    <link href="css/jquerysctipttop.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" media="screen" href="css/general.css">
-    <link rel="stylesheet" media="screen" href="css/b1njPolaroidGallery.css">
-  </head>
+    <link rel="stylesheet" media="screen" href="css/main.css">
+</head>
 
-  <body>
-    <div id="cursor"><svg width="100%" height="100%"><circle x="50" y="50" r="50" fill="red" id="target"/></svg></div>
-    <div id="page">
-      <!-- <button onclick="myFunction()">Click me</button> -->
-      <div id="thumbnails">
-        <table>
-          <tr><img id="0" class="thumb" src="img/0.jpg"></tr>
-          <tr><img id="1" class="thumb" src="img/1.jpg"></tr>
-          <tr><img id="2" class="thumb" src="img/2.jpg"></tr>
-          <tr><img id="3" class="thumb" src="img/3.jpg"></tr>
-          <tr><img id="4" class="thumb" src="img/4.jpg"></tr>
-        </table>
-        <!--ul id="thumbs">
-          <li><img id="0" class="thumb" src="img/0.jpg"></li>
-          <li><img id="1" class="thumb" src="img/1.jpg"></li>
-          <li><img id="2" class="selected-thumb" src="img/2.jpg"></li>
-          <li><img id="3" class="selected-thumb" src="img/3.jpg"></li>
-          <li><img id="4" class="thumb" src="img/4.jpg"></li>
-        </ul-->
-      </div>
-      <div id="gallery" class="b1njPolaroidGallery">
-        <ul id="gallery-ul">
-        </ul>
-      </div>
+<body>
+    <div id="cursor">
+        <svg width="100%" height="100%">
+            <circle x="50" y="50" r="50" fill="red" id="target" />
+        </svg>
     </div>
-
+    <div id="page">
+        <div id="thumbnails">
+            <!-- table of images hard coded in -->
+            <table>
+                <tr><img id="0" class="thumb" src="img/0.jpg"></tr>
+                <tr><img id="1" class="thumb" src="img/1.jpg"></tr>
+                <tr><img id="2" class="thumb" src="img/2.jpg"></tr>
+                <tr><img id="3" class="thumb" src="img/3.jpg"></tr>
+                <tr><img id="4" class="thumb" src="img/4.jpg"></tr>
+            </table>
+        </div>
+        <div id="gallery" class="b1njPolaroidGallery">
+            <!-- list images will be added to for manipulation -->
+            <ul id="gallery-ul"></ul>
+        </div>
+    </div>
+    <!-- script for running the Leap Motion -->
     <script src="js/leap-0.6.3.min.js"></script>
+    <!-- jQuery -->
     <script src="js/jquery-latest.min.js"></script>
+    <!-- jQuery -->
     <script src="js/jquery-migrate-1.2.1.js"></script>
+    <!-- jQuery -->
     <script src="js/jquery-ui.min.js"></script>
-    <script src="js/jquery.b1njPolaroidGallerry.js"></script> 
+    <!-- b1njPolaroidGallery script -->
+    <script src="js/jquery.b1njPolaroidGallerry.js"></script>
+    <!-- custom script -->
     <script src="js/script.js"></script>
-    <!--script>
-        function myFunction() {
-          for(x = 5 ; x<7 ; x++){ $("#gallery-ul").append($("<li><img src=\"img/" + x + ".jpg\" alt=\"\"></img></li>")); }
-          $('#gallery').tooltip('init', $("#selected"), "down");
-        }
-    </script-->
-    </script> 
-  </body>
+</body>
+
 </html>

@@ -1,0 +1,208 @@
+body {
+    font-family: Verdana, "DejaVu Sans", "Bitstream Vera Sans", Geneva, sans-serif;
+    color: #c4c4c4;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    overflow: hidden;
+    /*cursor: none;*/
+}
+
+#page {
+    width: 100wh;
+    height: 100vh;
+}
+
+#gallery {
+    width: 90%;
+    height: 100%;
+    background-color: #f0f0f0;
+}
+
+.credit {
+    font-size: .6em;
+    font-style: italic;
+    text-align: right;
+}
+
+#cursor {
+    opacity: 0.5;
+    width: 100%;
+    height: 100%;
+    color: blue;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 100;
+    color: red;
+    font-size: 40px;
+    z-index: 25;
+    pointer-events: none;
+}
+
+#thumbnails {
+    /*display:table;*/
+    float: left;
+    background-color: grey;
+    width: 10%;
+    height: 100%;
+}
+
+.thumb {
+    margin-left: 2%;
+    width: 90%;
+    border: 3px solid white;
+}
+
+.selected-thumb {
+    margin-left: 4%;
+    width: 90%;
+    background: blue;
+    border: 3px solid blue;
+    cursor: -webkit-grabbing;
+}
+
+#selected {
+    background: red;
+    cursor: -webkit-grabbing;
+}
+
+.selected-thumb {
+    background: blue;
+    border: 3px solid blue;
+    cursor: -webkit-grabbing;
+}
+
+#img-list {
+    display: table;
+    height: 90vh
+}
+
+#img-list img {
+    width: 100%;
+    display: block;
+    margin: 5px;
+    border: 1px solid #D7D7D7;
+    text-align: center
+}
+
+#img-list li {
+    display: inline-block
+}
+
+#img-list li span {
+    display: table-cell;
+    vertical-align: middle
+}
+
+
+/* b1njPolaroidGallery css */
+
+.b1njPolaroidGallery {
+    position: relative;
+    overflow: hidden;
+}
+
+.b1njPolaroidGallery ul {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.b1njPolaroidGallery li {
+    cursor: -webkit-grab;
+    display: block;
+    background: white;
+    border: 1px solid #D7D7D7;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    list-style-type: none;
+}
+
+li.b1njPolaroidGallery-active {
+    -webkit-box-shadow: #888 5px 5px 5px;
+    box-shadow: #888 5px 5px 5px;
+}
+
+li.ui-draggable-dragging {}
+
+.b1njPolaroidGallery a {
+    pointer-events: none;
+    cursor: inherit;
+    display: block;
+    line-height: 0;
+}
+
+.b1njPolaroidGallery img {
+    margin: 10px;
+    border: 1px solid #D7D7D7;
+    font-size: 1pt;
+    /*max-height: 50px;*/
+    max-width: 200px;
+}
+
+li.b1njPolaroidGallery-linkOk img {
+    cursor: pointer;
+}
+
+.b1njPolaroidGallery p {
+    text-align: center;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #2E2E2E;
+    margin: 0 10px 10px 10px;
+}
+
+
+/* jqueryscripttop css */
+
+#jquery-script-menu {
+    position: fixed;
+    height: 90px;
+    width: 100%;
+    top: 0;
+    left: 0;
+    border-top: 5px solid #316594;
+    background: #fff;
+    -moz-box-shadow: 0 2px 3px 0px rgba(0, 0, 0, 0.16);
+    -webkit-box-shadow: 0 2px 3px 0px rgba(0, 0, 0, 0.16);
+    box-shadow: 0 2px 3px 0px rgba(0, 0, 0, 0.16);
+    z-index: 999999;
+    padding: 10px 0;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+
+.jquery-script-center {
+    width: 960px;
+    margin: 0 auto;
+}
+
+.jquery-script-center ul {
+    width: 212px;
+    float: left;
+    line-height: 45px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.jquery-script-center a {
+    text-decoration: none;
+}
+
+.jquery-script-ads {
+    width: 728px;
+    height: 90px;
+    float: right;
+}
+
+.jquery-script-clear {
+    clear: both;
+    height: 0;
+}
