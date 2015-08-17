@@ -35,12 +35,13 @@ Leap.loop(controllerOptions, function(frame) {
 
     if(frame.pointables.length > 0 && frame.hands.length==1)
     {
+        console.log(document.elementFromPoint(appX, appY)));
         if(touchZone=="touching" && $('#selected').size() == 0){
-          console.log('touching');
+          // console.log('touching');
           $(document.elementFromPoint(appX, appY)).click();
 
         }else if (touchZone=="touching" && $('#selected').size() > 0){
-          console.log('move');
+          // console.log('move');
           var cssObj = {'left' : appX-$('#selected').width()-40, 'top' : (appY-$('#selected').height()/2)};
           $('#selected').css(cssObj);
           $('#selected').css({ background: "red" });
