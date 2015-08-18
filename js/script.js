@@ -29,10 +29,10 @@ Leap.loop(controllerOptions, function (frame) {
         var appHeight = document.body.clientHeight;
 
         var iBox = frame.interactionBox;
-        var normalizedPoint = iBox.normalizePoint(leapPoint, true);
-
         var pointable = frame.pointables[0];
+
         var leapPoint = pointable.stabilizedTipPosition;
+        var normalizedPoint = iBox.normalizePoint(leapPoint, true);
 
         var touchZone = frame.pointables[0].touchZone;
 
@@ -258,8 +258,4 @@ function selectThumb() {
 // clear working pane & reset selected thumbnails if any
 function clearPane() {
     $("#gallery-ul").empty();
-    $(".thumb").each(function () {
-        $(this).removeClass("thumb");
-        $(this).addClass("selected-thumb");
-    });
 }
